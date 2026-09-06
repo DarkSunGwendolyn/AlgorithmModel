@@ -1,0 +1,78 @@
+#ifndef GRAPHWIDGET_H
+#define GRAPHWIDGET_H
+
+#include "graph.h"
+#include "vertexItem.h"
+#include "edgeItem.h"
+
+#include <QGraphicsView>
+#include <QGraphicsScene>
+#include <QMouseEvent>
+#include <QInputDialog>
+#include <QMessageBox>
+
+class GraphWidget : public QGraphicsView
+{
+    Q_OBJECT
+
+public:
+    explicit GraphWidget(QWidget *p = nullptr);
+
+    QVector<QVector<int>> getAdjacencyMatrix() const;
+
+    const Graph& getGraph() const;
+
+    void highlightPath(const QVector<int> &path);
+
+public slots:
+
+    void setVertexCount(int count);
+    void setMatrixValue(int row, int col, int val);
+
+protected:
+    void mousePressEvent(QMouseEvent *e) override;
+    void mouseMoveEvent(QMouseEvent *e) override;
+    void mouseReleaseEvent(QMouseEvent *e) override;
+    void mouseDoubleClickEvent(QMouseEvent *e) override;
+
+private:
+    QGraphicsScene* scene;
+    Graph graph;
+
+    VertexItem *edgeStartVertex = nullptr;
+    QGraphicsLineItem *tempLine = nullptr;
+
+    void addVertex(const QPointF& pos);
+    void deleteVertex(VertexItem *vItem);
+    void deleteVertexEdges(VertexItem *vItem);
+    void updateVertexEdges(VertexItem *vItem);
+    void changeVerticiesIds(int deletedItemId);
+
+    void startEdgeCreation(VertexItem *i);
+    void updateEdgeCreation(const QPointF &pos);
+    void finishEdgeCreation(VertexItem *vItem);
+    void cancelEdgeCreation();
+    void deleteEdge(EdgeItem *eItem);
+    void changeEdgeWeight(EdgeItem *eItem);
+
+    EdgeItem *findEdge(int from, int to);
+    VertexItem * findVertex(int id);
+
+    void createEdge(
+        VertexItem *from,
+        VertexItem *to,
+        int weight);
+
+    void setEdgeWeight(EdgeItem *eItem, int weight);
+
+    void clearHighlight();
+    void highlightVerticies(const QVector<int> &path);
+    void highlightEdges(const QVector<int> &path);
+
+signals:
+    void graphChanged();
+    void vertexCountChanged(int count);
+};
+
+
+#endif // GRAPHWIDGET_H
