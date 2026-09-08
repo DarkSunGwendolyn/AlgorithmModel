@@ -53,6 +53,8 @@ MainWindow::MainWindow(QWidget *parent)
         &MainWindow::findShortestPath
         );
 
+    initAlgorithmCombo();
+
     loadTestMatrix();
 }
 
@@ -68,30 +70,84 @@ void MainWindow::updateVertexCombos()
         ui->fromVertexCombo->addItem(QString::number(i+1));
         ui->toVertexCombo->addItem(QString::number(i+1));
     }
-
-    ui->fromVertexCombo->setCurrentIndex(0);
-    ui->toVertexCombo->setCurrentIndex(0);
 }
 
 void MainWindow::findShortestPath()
 {
     int start = ui->fromVertexCombo->currentIndex();
     int finish = ui->toVertexCombo->currentIndex();
+    Algorithm algorithm = static_cast<Algorithm>(
+        ui->algorithmValueCombo->currentIndex());
 
-    DijkstraResult result = Dijkstra::findShortestPath(
-        ui->graphWidget->getGraph(),
+    ShortestPathResult result = calculateShortestPath(
+        algorithm,
         start,
         finish
         );
 
-    if (result.path.isEmpty() || result.pathLen == 0)
+    if (result.path.isEmpty() || result.negativeCycle)
     {
-        ui->pathValueLabel->setText("пути не существует");
-        ui->pathLenValueLabel->setText("—");
-
+        showNoPath();
         return;
     }
 
+    showPath(result);
+}
+
+ShortestPathResult MainWindow::calculateShortestPath(
+    Algorithm algorithm,
+    int start,
+    int finish)
+{
+    ShortestPathResult result;
+
+    switch(algorithm)
+    {
+
+        case(Algorithm::Dijkstra):
+        {
+            DijkstraResult dijkstraResult =
+                Dijkstra::findShortestPath(
+                ui->graphWidget->getGraph(),
+                start,
+                finish
+                );
+
+            result.path = dijkstraResult.path;
+            result.pathLen = dijkstraResult.pathLen;
+
+            break;
+        }
+
+        case(Algorithm::Floyd):
+        {
+            FloydResult floydResult =
+                Floyd::findShortestPath(
+                    ui->graphWidget->getGraph(),
+                    start,
+                    finish
+                );
+
+            result.path = floydResult.path;
+            result.pathLen = floydResult.pathLen;
+            result.negativeCycle = floydResult.negativeCycle;
+
+            break;
+        }
+    }
+
+    return result;
+}
+
+void MainWindow::showNoPath()
+{
+    ui->pathValueLabel->setText("пути не существует");
+    ui->pathLenValueLabel->setText("—");
+}
+
+void MainWindow::showPath(
+    const ShortestPathResult &result)
+{
     ui->graphWidget->highlightPath(result.path);
 
     QString path;
@@ -148,6 +204,12 @@ void MainWindow::loadTestMatrix()
     }
 
     ui->matrixWidget->setMatrix(testMatrix);
+}
+
+void MainWindow::initAlgorithmCombo()
+{
+    ui->algorithmValueCombo->addItem("Дейкстра");
+    ui->algorithmValueCombo->addItem("Флойд");
 }
 
 MainWindow::~MainWindow()

@@ -29,6 +29,7 @@ qt_add_executable(AlgorithmModel
     Widgets/MatrixWidget/matrixWidget.h
     Widgets/MatrixWidget/matrixWidget.cpp
 
+    Algorithms/algorithm.h
     Algorithms/dijkstra.h
     Algorithms/dijkstra.cpp
     Algorithms/floyd.h

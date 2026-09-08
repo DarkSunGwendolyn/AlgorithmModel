@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1025</width>
-    <height>600</height>
+    <width>1070</width>
+    <height>674</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -77,6 +77,9 @@
         <pointsize>10</pointsize>
        </font>
       </property>
+      <property name="layoutDirection">
+       <enum>Qt::LayoutDirection::LeftToRight</enum>
+      </property>
       <property name="title">
        <string>Поиск кратчайшего пути</string>
       </property>
@@ -84,30 +87,24 @@
        <set>Qt::AlignmentFlag::AlignCenter</set>
       </property>
       <layout class="QGridLayout" name="gridLayout">
-       <item row="0" column="1">
-        <widget class="QComboBox" name="fromVertexCombo"/>
-       </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="fromVertexLabel">
-         <property name="text">
-          <string>Из:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
+       <item row="3" column="0">
         <widget class="QLabel" name="pathHeaderLabel">
          <property name="text">
           <string>Путь:</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="3">
-        <widget class="QComboBox" name="toVertexCombo"/>
-       </item>
-       <item row="0" column="4">
-        <widget class="QPushButton" name="findShortestPathButton">
+       <item row="2" column="0">
+        <widget class="QLabel" name="algorithmHeaderLabel">
          <property name="text">
-          <string>Кратчайший путь</string>
+          <string>Алгоритм:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="fromVertexLabel">
+         <property name="text">
+          <string>Из:</string>
          </property>
         </widget>
        </item>
@@ -118,7 +115,21 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="0">
+       <item row="4" column="1">
+        <widget class="QLabel" name="pathLenValueLabel">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QLabel" name="pathValueLabel">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
         <widget class="QLabel" name="pathLenHeaderLabel">
          <property name="text">
           <string>Длина пути:</string>
@@ -126,16 +137,21 @@
         </widget>
        </item>
        <item row="2" column="1">
-        <widget class="QLabel" name="pathValueLabel">
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
+        <widget class="QComboBox" name="algorithmValueCombo"/>
        </item>
-       <item row="3" column="1">
-        <widget class="QLabel" name="pathLenValueLabel">
+       <item row="0" column="3">
+        <widget class="QComboBox" name="toVertexCombo"/>
+       </item>
+       <item row="0" column="1">
+        <widget class="QComboBox" name="fromVertexCombo"/>
+       </item>
+       <item row="7" column="1" colspan="2">
+        <widget class="QPushButton" name="findShortestPathButton">
+         <property name="layoutDirection">
+          <enum>Qt::LayoutDirection::LeftToRight</enum>
+         </property>
          <property name="text">
-          <string/>
+          <string>Кратчайший путь</string>
          </property>
         </widget>
        </item>
@@ -149,7 +165,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1025</width>
+     <width>1070</width>
      <height>26</height>
     </rect>
    </property>
