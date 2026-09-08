@@ -14,148 +14,188 @@
    <string>Вычислительная сеть</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayout_2">
+   <layout class="QVBoxLayout" name="verticalLayout_4">
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <item>
-       <widget class="GraphWidget" name="graphWidget"/>
-      </item>
-      <item>
-       <layout class="QVBoxLayout" name="verticalLayout">
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="currentIndex">
+       <number>1</number>
+      </property>
+      <widget class="QWidget" name="graphTab">
+       <attribute name="title">
+        <string>Граф</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <layout class="QVBoxLayout" name="verticalLayout_2">
           <item>
-           <widget class="QLabel" name="vertexCountHeaderLabel">
+           <layout class="QHBoxLayout" name="horizontalLayout">
+            <item>
+             <widget class="GraphWidget" name="graphWidget"/>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout">
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_2">
+                <item>
+                 <widget class="QLabel" name="vertexCountHeaderLabel">
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Количество вершин</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer">
+                  <property name="orientation">
+                   <enum>Qt::Orientation::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QSpinBox" name="vertexCountValueSpin">
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
+                  <property name="maximum">
+                   <number>10</number>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <widget class="MatrixWidget" name="matrixWidget"/>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QGroupBox" name="resultControlGroup">
             <property name="font">
              <font>
               <pointsize>10</pointsize>
              </font>
             </property>
-            <property name="text">
-             <string>Количество вершин</string>
+            <property name="layoutDirection">
+             <enum>Qt::LayoutDirection::LeftToRight</enum>
             </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="horizontalSpacer">
-            <property name="orientation">
-             <enum>Qt::Orientation::Horizontal</enum>
+            <property name="title">
+             <string>Поиск кратчайшего пути</string>
             </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
+            <property name="alignment">
+             <set>Qt::AlignmentFlag::AlignCenter</set>
             </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QSpinBox" name="vertexCountValueSpin">
-            <property name="font">
-             <font>
-              <pointsize>10</pointsize>
-             </font>
-            </property>
-            <property name="maximum">
-             <number>10</number>
-            </property>
+            <layout class="QGridLayout" name="gridLayout">
+             <item row="3" column="0">
+              <widget class="QLabel" name="pathHeaderLabel">
+               <property name="text">
+                <string>Путь:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="algorithmHeaderLabel">
+               <property name="text">
+                <string>Алгоритм:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="0">
+              <widget class="QLabel" name="fromVertexLabel">
+               <property name="text">
+                <string>Из:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="2">
+              <widget class="QLabel" name="toVertexLabel">
+               <property name="text">
+                <string>В:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="1">
+              <widget class="QLabel" name="pathLenValueLabel">
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="1">
+              <widget class="QLabel" name="pathValueLabel">
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="0">
+              <widget class="QLabel" name="pathLenHeaderLabel">
+               <property name="text">
+                <string>Длина пути:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QComboBox" name="algorithmValueCombo"/>
+             </item>
+             <item row="0" column="3">
+              <widget class="QComboBox" name="toVertexCombo"/>
+             </item>
+             <item row="0" column="1">
+              <widget class="QComboBox" name="fromVertexCombo"/>
+             </item>
+             <item row="7" column="1" colspan="2">
+              <widget class="QPushButton" name="findShortestPathButton">
+               <property name="layoutDirection">
+                <enum>Qt::LayoutDirection::LeftToRight</enum>
+               </property>
+               <property name="text">
+                <string>Кратчайший путь</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </widget>
           </item>
          </layout>
         </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="shortestPathsTab">
+       <attribute name="title">
+        <string>Кратчайшие пути</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_5">
         <item>
-         <widget class="MatrixWidget" name="matrixWidget"/>
+         <widget class="PathWidget" name="pathWidget"/>
+        </item>
+        <item>
+         <widget class="QPushButton" name="findShortestPathsButton">
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Найти все кратчайшие пути</string>
+          </property>
+         </widget>
         </item>
        </layout>
-      </item>
-     </layout>
-    </item>
-    <item>
-     <widget class="QGroupBox" name="resultControlGroup">
-      <property name="font">
-       <font>
-        <pointsize>10</pointsize>
-       </font>
-      </property>
-      <property name="layoutDirection">
-       <enum>Qt::LayoutDirection::LeftToRight</enum>
-      </property>
-      <property name="title">
-       <string>Поиск кратчайшего пути</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignmentFlag::AlignCenter</set>
-      </property>
-      <layout class="QGridLayout" name="gridLayout">
-       <item row="3" column="0">
-        <widget class="QLabel" name="pathHeaderLabel">
-         <property name="text">
-          <string>Путь:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="algorithmHeaderLabel">
-         <property name="text">
-          <string>Алгоритм:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="fromVertexLabel">
-         <property name="text">
-          <string>Из:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="2">
-        <widget class="QLabel" name="toVertexLabel">
-         <property name="text">
-          <string>В:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="1">
-        <widget class="QLabel" name="pathLenValueLabel">
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1">
-        <widget class="QLabel" name="pathValueLabel">
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0">
-        <widget class="QLabel" name="pathLenHeaderLabel">
-         <property name="text">
-          <string>Длина пути:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QComboBox" name="algorithmValueCombo"/>
-       </item>
-       <item row="0" column="3">
-        <widget class="QComboBox" name="toVertexCombo"/>
-       </item>
-       <item row="0" column="1">
-        <widget class="QComboBox" name="fromVertexCombo"/>
-       </item>
-       <item row="7" column="1" colspan="2">
-        <widget class="QPushButton" name="findShortestPathButton">
-         <property name="layoutDirection">
-          <enum>Qt::LayoutDirection::LeftToRight</enum>
-         </property>
-         <property name="text">
-          <string>Кратчайший путь</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
+      </widget>
      </widget>
     </item>
    </layout>
@@ -182,6 +222,11 @@
    <class>MatrixWidget</class>
    <extends>QTableWidget</extends>
    <header>matrixWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>PathWidget</class>
+   <extends>QTableWidget</extends>
+   <header>pathWidget.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -32,6 +32,11 @@ public:
         int finish
         );
 
+    static QVector<int> getPath(
+        const FloydMatrixResult &result,
+        int start,
+        int finish);
+
 private:
 
     static QVector<QVector<int>>  initializeDistances(

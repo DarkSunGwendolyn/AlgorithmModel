@@ -189,5 +189,28 @@ QVector<int> Floyd::buildPath(
     return path;
 }
 
+QVector<int> Floyd::getPath(
+    const FloydMatrixResult &result,
+    int start,
+    int finish
+    )
+{
+    if (result.negativeCycle)
+    {
+        return {};
+    }
+
+    if (result.theta[start][finish] == INT_MAX)
+    {
+        return {};
+    }
+
+    return buildPath(
+        result.theta,
+        start,
+        finish
+        );
+}
+
 
 

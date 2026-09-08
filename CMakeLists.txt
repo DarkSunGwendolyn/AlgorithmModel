@@ -29,6 +29,12 @@ qt_add_executable(AlgorithmModel
     Widgets/MatrixWidget/matrixWidget.h
     Widgets/MatrixWidget/matrixWidget.cpp
 
+    Widgets/PathWidget/pathWidget.h
+    Widgets/PathWidget/pathWidget.cpp
+    Widgets/PathWidget/pathMapper.h
+    Widgets/PathWidget/pathMapper.cpp
+
+
     Algorithms/algorithm.h
     Algorithms/dijkstra.h
     Algorithms/dijkstra.cpp
@@ -42,6 +48,7 @@ target_include_directories(AlgorithmModel
         ${CMAKE_CURRENT_SOURCE_DIR}/Widgets
         ${CMAKE_CURRENT_SOURCE_DIR}/Widgets/GraphWidget
         ${CMAKE_CURRENT_SOURCE_DIR}/Widgets/MatrixWidget
+        ${CMAKE_CURRENT_SOURCE_DIR}/Widgets/PathWidget
         ${CMAKE_CURRENT_SOURCE_DIR}/Algorithms
 
 

@@ -53,6 +53,13 @@ MainWindow::MainWindow(QWidget *parent)
         &MainWindow::findShortestPath
         );
 
+    connect(
+        ui->findShortestPathsButton,
+        &QPushButton::clicked,
+        this,
+        &MainWindow::findShortestPaths
+        );
+
     initAlgorithmCombo();
 
     loadTestMatrix();
@@ -184,7 +191,7 @@ void MainWindow::loadTestMatrix()
         {0, 0, 25, 0, 5, 16, 4, 0, 0},
         {0, 0, 0, 5, 0, 10, 0, 0, 0},
         {0, 0, 20, 0, 10, 0, 14, 15, 9},
-        {0, 2, 0, 0, 4, 0, 14, 0, 0, 24},
+        {0, 2, 0, 4, 0, 14, 0, 0, 24},
         {6, 0, 0, 0, 23, 15, 0, 0, 5},
         {2, 13, 0, 0, 0, 9, 24, 5, 0}
     };
@@ -210,6 +217,38 @@ void MainWindow::initAlgorithmCombo()
 {
     ui->algorithmValueCombo->addItem("Дейкстра");
     ui->algorithmValueCombo->addItem("Флойд");
+}
+
+void MainWindow::findShortestPaths()
+{
+    qDebug() << "start";
+    FloydMatrixResult result =
+        Floyd::findShortestPaths(ui->graphWidget->getGraph());
+
+    if (result.negativeCycle)
+    {
+        showNegativeCycle();
+        return;
+    }
+
+    QVector<PathTableRow> rows =
+        PathMapper::map(result);
+
+    ui->pathWidget->setPaths(rows);
+}
+
+void MainWindow::showNegativeCycle()
+{
+    ui->pathWidget->clearContents();
+    ui->pathWidget->setRowCount(0);
+
+    QMessageBox::warning(
+        this,
+        "Предупреждение",
+        "В графе обнаружен отрицательный цикл.\n"
+        "Кратчайшие пути не определены."
+    );
+
 }
 
 MainWindow::~MainWindow()

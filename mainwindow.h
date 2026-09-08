@@ -2,13 +2,20 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QMessageBox>
 #include <QSignalBlocker>
 
 #include "graphWidget.h"
 #include "matrixWidget.h"
+#include "pathWidget.h"
+
 #include "dijkstra.h"
 #include "floyd.h"
 #include "algorithm.h"
+
+#include "pathMapper.h"
+
+#include <QDebug>
 
 struct ShortestPathResult
 {
@@ -51,9 +58,12 @@ private:
 
     void showPath(const ShortestPathResult &result);
 
+    void showNegativeCycle();
+
 
 
 private slots:
     void findShortestPath();
+    void findShortestPaths();
 };
 #endif // MAINWINDOW_H
