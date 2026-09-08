@@ -21,6 +21,10 @@ public:
         int finish
         );
 
+    static QVector<QVector<DijkstraResult>> findShortestPaths(
+        const Graph &graph
+        );
+
 private:
     static int findMinVertex(
         const QVector<int>& dist,

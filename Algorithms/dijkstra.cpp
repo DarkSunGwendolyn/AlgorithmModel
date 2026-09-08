@@ -1,5 +1,26 @@
 #include "dijkstra.h"
 
+QVector<QVector<DijkstraResult>> Dijkstra::findShortestPaths(
+    const Graph &graph)
+{
+    int n = graph.getAdjacencyMatrix().size();
+    QVector<QVector<DijkstraResult>> results (
+        n,
+        QVector<DijkstraResult>(n)
+        );
+
+    for (int from = 0; from < n; ++from)
+    {
+        for (int to = 0; to < n; ++to)
+        {
+            results[from][to] =
+                findShortestPath(graph,from,to);
+        }
+    }
+
+    return results;
+}
+
 DijkstraResult Dijkstra::findShortestPath(
     const Graph& graph,
     int start,

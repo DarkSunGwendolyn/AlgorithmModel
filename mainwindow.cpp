@@ -60,9 +60,18 @@ MainWindow::MainWindow(QWidget *parent)
         &MainWindow::findShortestPaths
         );
 
+    connect(
+        ui->showTimeCheck,
+        &QCheckBox::toggled,
+        ui->timePanel,
+        &QFrame::setVisible
+        );
+
     initAlgorithmCombo();
 
     loadTestMatrix();
+
+    ui->timePanel->hide();
 }
 
 void MainWindow::updateVertexCombos()
@@ -221,34 +230,70 @@ void MainWindow::initAlgorithmCombo()
 
 void MainWindow::findShortestPaths()
 {
-    qDebug() << "start";
-    FloydMatrixResult result =
-        Floyd::findShortestPaths(ui->graphWidget->getGraph());
+    Graph graph = ui->graphWidget->getGraph();
 
-    if (result.negativeCycle)
+    QElapsedTimer timer;
+
+    timer.start();
+
+    FloydMatrixResult floydResult =
+        Floyd::findShortestPaths(graph);
+
+    qint64 floydTime = timer.nsecsElapsed();
+
+    if (floydResult.negativeCycle)
     {
         showNegativeCycle();
         return;
     }
 
-    QVector<PathTableRow> rows =
-        PathMapper::map(result);
+    QVector<PathTableRow> floydRows =
+        PathMapper::map(floydResult);
 
-    ui->pathWidget->setPaths(rows);
+    ui->floydPathWidget->setPaths(floydRows);
+
+    timer.start();
+
+    QVector<QVector<DijkstraResult>> dijkstraResult =
+        Dijkstra::findShortestPaths(graph);
+
+    qint64 dijkstraTime = timer.nsecsElapsed();
+
+    QVector<PathTableRow> dijkstraRows =
+        PathMapper::map(dijkstraResult);
+
+    ui->dijkstraPathWidget->setPaths(dijkstraRows);
+
+    showExecutionTime(dijkstraTime, floydTime);
 }
 
 void MainWindow::showNegativeCycle()
 {
-    ui->pathWidget->clearContents();
-    ui->pathWidget->setRowCount(0);
+    ui->floydPathWidget->clearContents();
+    ui->floydPathWidget->setRowCount(0);
 
     QMessageBox::warning(
         this,
-        "Предупреждение",
+        "Отрицательный цикл",
         "В графе обнаружен отрицательный цикл.\n"
         "Кратчайшие пути не определены."
     );
+}
 
+void MainWindow::showExecutionTime(
+    qint64 dijkstraTime,
+    qint64 floydTime)
+{
+    double floydMs = floydTime / 1'000'000.0;
+    double dijkstraMs = dijkstraTime / 1'000'000.0;
+
+    ui->floydTimeValueLabel->setText(
+        QString::number(floydMs, 'f', 3) + " мс"
+        );
+
+    ui->dijkstraTimeValueLabel->setText(
+        QString::number(dijkstraMs, 'f', 3) + " мс"
+        );
 }
 
 MainWindow::~MainWindow()

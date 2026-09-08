@@ -33,6 +33,7 @@ qt_add_executable(AlgorithmModel
     Widgets/PathWidget/pathWidget.cpp
     Widgets/PathWidget/pathMapper.h
     Widgets/PathWidget/pathMapper.cpp
+    Widgets/PathWidget/pathTableRow.h
 
 
     Algorithms/algorithm.h

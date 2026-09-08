@@ -5,13 +5,7 @@
 #include <QHeaderView>
 #include <QVector>
 
-struct PathTableRow
-{
-    int from;
-    int to;
-    QVector<int> path;
-    int pathLen;
-};
+#include "pathTableRow.h"
 
 class PathWidget : public QTableWidget
 {

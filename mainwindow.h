@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QMessageBox>
 #include <QSignalBlocker>
+#include <QElapsedTimer>
 
 #include "graphWidget.h"
 #include "matrixWidget.h"
@@ -14,8 +15,6 @@
 #include "algorithm.h"
 
 #include "pathMapper.h"
-
-#include <QDebug>
 
 struct ShortestPathResult
 {
@@ -59,6 +58,11 @@ private:
     void showPath(const ShortestPathResult &result);
 
     void showNegativeCycle();
+
+    void showExecutionTime(
+        qint64 dijkstraTime,
+        qint64 floydTime
+        );
 
 
 
