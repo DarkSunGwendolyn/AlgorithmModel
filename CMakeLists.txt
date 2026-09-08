@@ -31,6 +31,8 @@ qt_add_executable(AlgorithmModel
 
     Algorithms/dijkstra.h
     Algorithms/dijkstra.cpp
+    Algorithms/floyd.h
+    Algorithms/floyd.cpp
 )
 
 target_include_directories(AlgorithmModel

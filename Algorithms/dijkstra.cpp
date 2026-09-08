@@ -85,17 +85,15 @@ void Dijkstra::updateDistances(
 {
     for (int j = 0; j < dist.size(); ++j)
     {
-        if (matrix[current][j] == 0)
+        if (matrix[current][j] != 0)
         {
-            continue;
-        }
+            int newDistance = dist[current] + matrix[current][j];
 
-        int newDistance = dist[current] + matrix[current][j];
-
-        if (newDistance < dist[j])
-        {
-            dist[j] = newDistance;
-            prev[j] = current;
+            if (newDistance < dist[j])
+            {
+                dist[j] = newDistance;
+                prev[j] = current;
+            }
         }
     }
 }
