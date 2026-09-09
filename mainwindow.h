@@ -5,6 +5,7 @@
 #include <QMessageBox>
 #include <QSignalBlocker>
 #include <QElapsedTimer>
+#include <QFileDialog>
 
 #include "graphWidget.h"
 #include "matrixWidget.h"
@@ -15,6 +16,7 @@
 #include "algorithm.h"
 
 #include "pathMapper.h"
+#include "graphFile.h"
 
 struct ShortestPathResult
 {
@@ -69,5 +71,8 @@ private:
 private slots:
     void findShortestPath();
     void findShortestPaths();
+
+    void saveGraph();
+    void loadGraph();
 };
 #endif // MAINWINDOW_H

@@ -116,6 +116,31 @@ QVector<QVector<int>> Graph::getAdjacencyMatrix() const
     return m;
 }
 
+void Graph::setGraphData(
+    const QVector<Vertex> &verticies,
+    const QVector<QVector<int>> &matrix)
+{
+    this->verticies = verticies;
+    edges.clear();
+
+    for (int i = 0;  i < matrix.size(); ++i)
+    {
+        for (int j = 0; j < matrix[i].size(); ++j)
+        {
+            if (matrix[i][j] != 0)
+            {
+                addEdge(
+                    verticies[i].id,
+                    verticies[j].id,
+                    matrix[i][j]
+                    );
+            }
+        }
+    }
+
+    nextVertexID = verticies.size();
+}
+
 
 
 

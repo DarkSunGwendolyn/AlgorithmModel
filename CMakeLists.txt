@@ -41,6 +41,9 @@ qt_add_executable(AlgorithmModel
     Algorithms/dijkstra.cpp
     Algorithms/floyd.h
     Algorithms/floyd.cpp
+
+    File/graphFile.h
+    File/graphFile.cpp
 )
 
 target_include_directories(AlgorithmModel
@@ -51,6 +54,7 @@ target_include_directories(AlgorithmModel
         ${CMAKE_CURRENT_SOURCE_DIR}/Widgets/MatrixWidget
         ${CMAKE_CURRENT_SOURCE_DIR}/Widgets/PathWidget
         ${CMAKE_CURRENT_SOURCE_DIR}/Algorithms
+        ${CMAKE_CURRENT_SOURCE_DIR}/File
 
 
 )

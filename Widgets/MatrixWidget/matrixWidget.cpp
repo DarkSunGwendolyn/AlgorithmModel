@@ -11,6 +11,24 @@ MatrixWidget::MatrixWidget(QWidget *p) : QTableWidget(p)
         this,
         &MatrixWidget::generateCellValueChanged
         );
+
+    connect(
+        verticalHeader(),
+        &QHeaderView::sectionDoubleClicked,
+        this,
+        [this](int idx)
+        {
+            emit headerDoubleClicked(idx);
+        });
+
+    connect(
+        horizontalHeader(),
+        &QHeaderView::sectionDoubleClicked,
+        this,
+        [this](int idx)
+        {
+            emit headerDoubleClicked(idx);
+        });
 }
 
 void MatrixWidget::setMatrix(const QVector<QVector<int>> &matrix)

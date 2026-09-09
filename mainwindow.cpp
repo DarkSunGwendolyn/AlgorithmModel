@@ -36,6 +36,13 @@ MainWindow::MainWindow(QWidget *parent)
         );
 
     connect(
+        ui->matrixWidget,
+        &MatrixWidget::headerDoubleClicked,
+        ui->graphWidget,
+        &GraphWidget::deleteVertexById
+        );
+
+    connect(
         ui->graphWidget,
         &GraphWidget::vertexCountChanged,
         this,
@@ -65,6 +72,20 @@ MainWindow::MainWindow(QWidget *parent)
         &QCheckBox::toggled,
         ui->timePanel,
         &QFrame::setVisible
+        );
+
+    connect(
+        ui->actionSave,
+        &QAction::triggered,
+        this,
+        &MainWindow::saveGraph
+        );
+
+    connect(
+        ui->actionLoad,
+        &QAction::triggered,
+        this,
+        &MainWindow::loadGraph
         );
 
     initAlgorithmCombo();
@@ -294,6 +315,76 @@ void MainWindow::showExecutionTime(
     ui->dijkstraTimeValueLabel->setText(
         QString::number(dijkstraMs, 'f', 3) + " мс"
         );
+}
+
+void MainWindow::saveGraph()
+{
+    QString fileName =
+        QFileDialog::getSaveFileName(
+        this,
+        "Сохранить граф",
+        "",
+        "JSON files (*.json)"
+    );
+
+    if (fileName.isEmpty())
+    {
+        return;
+    }
+
+    if (!GraphFile::save(
+            fileName,
+            ui->graphWidget->getGraph()
+            )
+        )
+    {
+        QMessageBox::warning(
+            this,
+            "Ошибка!",
+            "Не удалось сохранить граф"
+            );
+    }
+}
+
+void MainWindow::loadGraph()
+{
+    QString fileName =
+        QFileDialog::getOpenFileName(
+            this,
+            "Загрузить граф",
+            "",
+            "JSON files (*.json)"
+        );
+
+    if (fileName.isEmpty())
+    {
+        return;
+    }
+
+    QVector<Vertex> verticies;
+    QVector<QVector<int>> matrix;
+
+    if (!GraphFile::load(
+            fileName,
+            verticies,
+            matrix
+            )
+        )
+    {
+        QMessageBox::warning(
+            this,
+            "Ошибка!",
+            "Не удалось загрузить граф"
+            );
+
+        return;
+    }
+
+    ui->graphWidget->setGraphData(
+        verticies,
+        matrix
+        );
+
 }
 
 MainWindow::~MainWindow()

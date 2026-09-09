@@ -19,6 +19,7 @@ public slots:
 
 signals:
     void cellValueChanged(int row, int col, int weight);
+    void headerDoubleClicked(int idx);
 };
 
 #endif // MATRIXWIDGET_H

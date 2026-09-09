@@ -24,10 +24,17 @@ public:
 
     void highlightPath(const QVector<int> &path);
 
+    void setGraphData(
+        const QVector<Vertex>& verticies,
+        const QVector<QVector<int>>& matrix
+        );
+
 public slots:
 
     void setVertexCount(int count);
     void setMatrixValue(int row, int col, int val);
+
+    void deleteVertexById(int id);
 
 protected:
     void mousePressEvent(QMouseEvent *e) override;

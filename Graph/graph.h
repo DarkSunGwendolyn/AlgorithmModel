@@ -23,6 +23,11 @@ public:
 
     QVector<QVector<int>> getAdjacencyMatrix() const;
 
+    void setGraphData(
+        const QVector<Vertex> &verticies,
+        const QVector<QVector<int>> &matrix
+        );
+
 private:
     QVector<Vertex> verticies;
     QVector<Edge> edges;

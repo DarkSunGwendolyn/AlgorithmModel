@@ -561,4 +561,67 @@ void GraphWidget::highlightEdges(const QVector<int> &path)
     }
 }
 
+void GraphWidget::setGraphData(
+    const QVector<Vertex> &verticies,
+    const QVector<QVector<int>>& matrix
+    )
+{
+    edgeStartVertex = nullptr;
+    tempLine = nullptr;
+
+    scene->clear();
+
+    graph.setGraphData(verticies, matrix);
+
+    for (const Vertex& vertex : graph.getVerticies())
+    {
+        VertexItem *item = new VertexItem(vertex.id);
+        item->setPos(vertex.pos);
+
+        connect(
+            item,
+            &VertexItem::positionChanged,
+            this,
+            [this, item]
+            {
+                updateVertexEdges(item);
+            });
+
+        scene->addItem(item);
+    }
+
+    for (const Edge& edge : graph.getEdges())
+    {
+        VertexItem *from = findVertex(edge.from);
+        VertexItem *to = findVertex(edge.to);
+
+        if (from != nullptr &&
+            to != nullptr)
+        {
+            scene->addItem(
+                new EdgeItem(
+                    from,
+                    to,
+                    edge.weight
+                    )
+                );
+        }
+    }
+
+    emit graphChanged();
+    emit vertexCountChanged(
+        graph.getVerticies().size()
+        );
+}
+
+void GraphWidget::deleteVertexById(int id)
+{
+    VertexItem *vItem = findVertex(id);
+
+    if (vItem != nullptr)
+    {
+        deleteVertex(vItem);
+    }
+}
+
 
