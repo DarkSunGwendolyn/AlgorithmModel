@@ -50,8 +50,7 @@ MainWindow::MainWindow(QWidget *parent)
         {
             QSignalBlocker blocker(ui->vertexCountValueSpin);
             ui->vertexCountValueSpin->setValue(count);
-        }
-        );
+        });
 
     connect(
         ui->findShortestPathButton,
@@ -88,6 +87,24 @@ MainWindow::MainWindow(QWidget *parent)
         &MainWindow::loadGraph
         );
 
+    connect(
+        ui->routingPageButton,
+        &QPushButton::clicked,
+        this,
+        [this]()
+        {
+            ui->algorithmStackedWidget->setCurrentWidget(ui->routingPage);
+        });
+
+    connect(
+        ui->shortestPathPageButton,
+        &QPushButton::clicked,
+        this,
+        [this]()
+        {
+            ui->algorithmStackedWidget->setCurrentWidget(ui->shortestPathPage);
+        });
+
     initAlgorithmCombo();
 
     loadTestMatrix();
@@ -102,10 +119,16 @@ void MainWindow::updateVertexCombos()
     ui->fromVertexCombo->clear();
     ui->toVertexCombo->clear();
 
+    ui->fromRoutingCombo->clear();
+    ui->toRoutingCombo->clear();
+
     for (int i = 0; i < count; ++i)
     {
         ui->fromVertexCombo->addItem(QString::number(i+1));
         ui->toVertexCombo->addItem(QString::number(i+1));
+
+        ui->fromRoutingCombo->addItem(QString::number(i+1));
+        ui->toRoutingCombo->addItem(QString::number(i+1));
     }
 }
 
@@ -247,6 +270,22 @@ void MainWindow::initAlgorithmCombo()
 {
     ui->algorithmValueCombo->addItem("Дейкстра");
     ui->algorithmValueCombo->addItem("Флойд");
+
+    ui->routingAlgorithmCombo->addItem(
+        "Случайная маршрутизация"
+        );
+    ui->routingAlgorithmCombo->addItem(
+        "Лавинная маршрутизация"
+        );
+    ui->routingAlgorithmCombo->addItem(
+        "Маршрутизация по предыдущему опыту"
+        );
+    ui->routingAlgorithmCombo->addItem(
+        "Фиксированная маршрутизация"
+        );
+    ui->routingAlgorithmCombo->addItem(
+        "Адаптивная маршрутизация"
+        );
 }
 
 void MainWindow::findShortestPaths()
