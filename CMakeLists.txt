@@ -14,10 +14,12 @@ qt_add_executable(AlgorithmModel
     mainwindow.cpp
     mainwindow.ui
 
-    Graph/vertex.h
-    Graph/edge.h
-    Graph/graph.h
-    Graph/graph.cpp
+    Models/Graph/vertex.h
+    Models/Graph/edge.h
+    Models/Graph/graph.h
+    Models/Graph/graph.cpp
+
+    Models/Packet/packet.h
 
     Widgets/GraphWidget/graphWidget.h
     Widgets/GraphWidget/graphWidget.cpp
@@ -35,12 +37,35 @@ qt_add_executable(AlgorithmModel
     Widgets/PathWidget/pathMapper.cpp
     Widgets/PathWidget/pathTableRow.h
 
+    Widgets/GraphWidget/packetItem.h
+    Widgets/GraphWidget/packetItem.cpp
 
-    Algorithms/algorithm.h
-    Algorithms/dijkstra.h
-    Algorithms/dijkstra.cpp
-    Algorithms/floyd.h
-    Algorithms/floyd.cpp
+
+    Algorithms/ShortestPath/shortestPathType.h
+    Algorithms//ShortestPath/dijkstra.h
+    Algorithms//ShortestPath/dijkstra.cpp
+    Algorithms//ShortestPath/floyd.h
+    Algorithms//ShortestPath/floyd.cpp
+
+    Algorithms/Routing/routingAlgorithm.h
+    Algorithms/Routing/randomRouting.h
+    Algorithms/Routing/randomRouting.cpp
+    Algorithms/Routing/floodingRouting.h
+    Algorithms/Routing/floodingRouting.cpp
+    Algorithms/Routing/routingType.h
+    Algorithms/Routing/routingAlgorithmProvider.h
+    Algorithms/Routing/routingAlgorithmProvider.cpp
+
+    Routing/routingResult.h
+    Routing//packetRouter.h
+    Routing/packetRouter.cpp
+    Routing/transmissionType.h
+    Routing/transmissionMethod.h
+    Routing/transmissionMethod.cpp
+    Routing/datagram.h
+    Routing/datagram.cpp
+    Routing/virtualCircuit.h
+    Routing/virtualCircuit.cpp
 
     File/graphFile.h
     File/graphFile.cpp
@@ -48,15 +73,22 @@ qt_add_executable(AlgorithmModel
 
 target_include_directories(AlgorithmModel
     PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/Graph
+        ${CMAKE_CURRENT_SOURCE_DIR}/Models
+        ${CMAKE_CURRENT_SOURCE_DIR}/Models/Graph
+        ${CMAKE_CURRENT_SOURCE_DIR}/Models/Packet
+
         ${CMAKE_CURRENT_SOURCE_DIR}/Widgets
         ${CMAKE_CURRENT_SOURCE_DIR}/Widgets/GraphWidget
         ${CMAKE_CURRENT_SOURCE_DIR}/Widgets/MatrixWidget
         ${CMAKE_CURRENT_SOURCE_DIR}/Widgets/PathWidget
+
         ${CMAKE_CURRENT_SOURCE_DIR}/Algorithms
+        ${CMAKE_CURRENT_SOURCE_DIR}/Algorithms/ShortestPath
+        ${CMAKE_CURRENT_SOURCE_DIR}/Algorithms/Routing
+
+        ${CMAKE_CURRENT_SOURCE_DIR}/Routing
+
         ${CMAKE_CURRENT_SOURCE_DIR}/File
-
-
 )
 
 target_link_libraries(AlgorithmModel

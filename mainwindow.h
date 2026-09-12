@@ -10,13 +10,13 @@
 #include "graphWidget.h"
 #include "matrixWidget.h"
 #include "pathWidget.h"
-
 #include "dijkstra.h"
 #include "floyd.h"
-#include "algorithm.h"
-
+#include "shortestPathType.h"
 #include "pathMapper.h"
 #include "graphFile.h"
+#include "routingAlgorithmProvider.h"
+#include "packetRouter.h"
 
 struct ShortestPathResult
 {
@@ -42,6 +42,10 @@ public:
 private:
     Ui::MainWindow *ui;
 
+    RoutingAlgorithmProvider algorithmProvider;
+
+    PacketRouter packetRouter;
+
     void updateVertexCombos();
     void clearShortestPathResult();
 
@@ -50,7 +54,7 @@ private:
     void loadTestMatrix();
 
     ShortestPathResult calculateShortestPath(
-        Algorithm algorithm,
+        ShortestPathType algorithm,
         int start,
         int finish
         );
@@ -74,5 +78,9 @@ private slots:
 
     void saveGraph();
     void loadGraph();
+
+    void setRoutingAlgorithm();
+
+    void routePacket();
 };
 #endif // MAINWINDOW_H

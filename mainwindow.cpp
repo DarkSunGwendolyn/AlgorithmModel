@@ -105,9 +105,24 @@ MainWindow::MainWindow(QWidget *parent)
             ui->algorithmStackedWidget->setCurrentWidget(ui->shortestPathPage);
         });
 
-    initAlgorithmCombo();
+    connect(
+        ui->routingAlgorithmCombo,
+        &QComboBox::currentIndexChanged,
+        this,
+        &MainWindow::setRoutingAlgorithm
+        );
 
-    loadTestMatrix();
+    connect(
+        ui->sendPacketButton,
+        &QPushButton::clicked,
+        this,
+        &MainWindow::routePacket
+        );
+
+    initAlgorithmCombo();
+    setRoutingAlgorithm();
+
+    //loadTestMatrix();
 
     ui->timePanel->hide();
 }
@@ -134,10 +149,25 @@ void MainWindow::updateVertexCombos()
 
 void MainWindow::findShortestPath()
 {
+    if (ui->fromVertexCombo->count() == 0 ||
+        ui->toVertexCombo->count() == 0)
+    {
+        QMessageBox::warning(
+            this,
+            "Отсутствуют вершины",
+            "В графе нет вершин."
+            );
+
+        return;
+    }
+
     int start = ui->fromVertexCombo->currentIndex();
     int finish = ui->toVertexCombo->currentIndex();
-    Algorithm algorithm = static_cast<Algorithm>(
-        ui->algorithmValueCombo->currentIndex());
+
+    ShortestPathType algorithm =
+        static_cast<ShortestPathType>(
+            ui->algorithmValueCombo->currentIndex()
+        );
 
     ShortestPathResult result = calculateShortestPath(
         algorithm,
@@ -155,7 +185,7 @@ void MainWindow::findShortestPath()
 }
 
 ShortestPathResult MainWindow::calculateShortestPath(
-    Algorithm algorithm,
+    ShortestPathType algorithm,
     int start,
     int finish)
 {
@@ -164,7 +194,7 @@ ShortestPathResult MainWindow::calculateShortestPath(
     switch(algorithm)
     {
 
-        case(Algorithm::Dijkstra):
+        case(ShortestPathType::Dijkstra):
         {
             DijkstraResult dijkstraResult =
                 Dijkstra::findShortestPath(
@@ -179,7 +209,7 @@ ShortestPathResult MainWindow::calculateShortestPath(
             break;
         }
 
-        case(Algorithm::Floyd):
+        case(ShortestPathType::Floyd):
         {
             FloydResult floydResult =
                 Floyd::findShortestPath(
@@ -277,15 +307,9 @@ void MainWindow::initAlgorithmCombo()
     ui->routingAlgorithmCombo->addItem(
         "Лавинная маршрутизация"
         );
-    ui->routingAlgorithmCombo->addItem(
-        "Маршрутизация по предыдущему опыту"
-        );
-    ui->routingAlgorithmCombo->addItem(
-        "Фиксированная маршрутизация"
-        );
-    ui->routingAlgorithmCombo->addItem(
-        "Адаптивная маршрутизация"
-        );
+    // ui->routingAlgorithmCombo->addItem(
+    //     "Маршрутизация по предыдущему опыту"
+    //     );
 }
 
 void MainWindow::findShortestPaths()
@@ -400,12 +424,12 @@ void MainWindow::loadGraph()
         return;
     }
 
-    QVector<Vertex> verticies;
+    QVector<Vertex> vertices;
     QVector<QVector<int>> matrix;
 
     if (!GraphFile::load(
             fileName,
-            verticies,
+            vertices,
             matrix
             )
         )
@@ -420,10 +444,66 @@ void MainWindow::loadGraph()
     }
 
     ui->graphWidget->setGraphData(
-        verticies,
+        vertices,
         matrix
         );
+}
 
+void MainWindow::setRoutingAlgorithm()
+{
+    RoutingType type =
+        static_cast<RoutingType>(
+            ui->routingAlgorithmCombo->currentIndex()
+        );
+
+    RoutingAlgorithm *algorithm =
+        algorithmProvider.getAlgorithm(type);
+
+    if (algorithm == nullptr)
+    {
+        return;
+    }
+
+    packetRouter.setRoutingAlgorithm(algorithm);
+}
+
+void MainWindow::routePacket()
+{
+    Graph graph = ui->graphWidget->getGraph();
+
+    if (graph.getVertices().isEmpty())
+    {
+        return;
+    }
+
+    int source = ui->fromRoutingCombo->currentIndex();
+    int destination = ui->toRoutingCombo->currentIndex();
+
+    Packet packet;
+
+    packet.id = 0;
+    packet.source = source;
+    packet.destination = destination;
+    packet.currentVertex = source;
+    packet.previousVertex = -1;
+    packet.ttl = graph.getVertices().size();
+    packet.transmissionType =
+        ui->datagramRadio->isChecked()
+        ? TransmissionType::Datagram
+        : TransmissionType::VirtualCircuit;
+
+    packet.route.append(source);
+
+    RoutingResult result =
+        packetRouter.routePacket(graph, packet);
+
+    QVector<Packet> animatePackets = result.deliveredPackets;
+    animatePackets += result.expiredPackets;
+
+    for (const Packet &packet : animatePackets)
+    {
+        ui->graphWidget->animatePacket(packet);
+    }
 }
 
 MainWindow::~MainWindow()

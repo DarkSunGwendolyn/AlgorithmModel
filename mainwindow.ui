@@ -113,7 +113,7 @@
              </sizepolicy>
             </property>
             <property name="currentIndex">
-             <number>0</number>
+             <number>1</number>
             </property>
             <widget class="QWidget" name="shortestPathPage">
              <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -317,49 +317,32 @@
                      <item row="0" column="0">
                       <widget class="QLabel" name="fromRoutingHeaderLabel">
                        <property name="text">
-                        <string>Из</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="1" column="0">
-                      <widget class="QLabel" name="toRoutingHeaderLabel">
-                       <property name="text">
-                        <string>В</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="2" column="0">
-                      <widget class="QLabel" name="routingAlgorithmHeaderLabel">
-                       <property name="text">
-                        <string>Алгоритм</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="3" column="0">
-                      <widget class="QLabel" name="packetCountHeaderLabel">
-                       <property name="text">
-                        <string>Количество пакетов</string>
+                        <string>Из:</string>
                        </property>
                       </widget>
                      </item>
                      <item row="0" column="1">
                       <widget class="QComboBox" name="fromRoutingCombo"/>
                      </item>
+                     <item row="1" column="0">
+                      <widget class="QLabel" name="toRoutingHeaderLabel">
+                       <property name="text">
+                        <string>В:</string>
+                       </property>
+                      </widget>
+                     </item>
                      <item row="1" column="1">
                       <widget class="QComboBox" name="toRoutingCombo"/>
                      </item>
-                     <item row="2" column="1">
-                      <widget class="QComboBox" name="routingAlgorithmCombo"/>
-                     </item>
-                     <item row="3" column="1">
-                      <widget class="QSpinBox" name="packetCountValueSpin">
-                       <property name="minimum">
-                        <number>1</number>
-                       </property>
-                       <property name="maximum">
-                        <number>5</number>
+                     <item row="2" column="0">
+                      <widget class="QLabel" name="routingAlgorithmHeaderLabel">
+                       <property name="text">
+                        <string>Алгоритм:</string>
                        </property>
                       </widget>
+                     </item>
+                     <item row="2" column="1">
+                      <widget class="QComboBox" name="routingAlgorithmCombo"/>
                      </item>
                     </layout>
                    </item>
@@ -368,7 +351,7 @@
                      <item>
                       <widget class="QLabel" name="transmissionTypeLabel">
                        <property name="text">
-                        <string>Тип передачи</string>
+                        <string>Тип передачи:</string>
                        </property>
                       </widget>
                      </item>
@@ -392,16 +375,9 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="sendPacketsButton">
+                 <widget class="QPushButton" name="sendPacketButton">
                   <property name="text">
                    <string>Отправить</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="configurePacketButton">
-                  <property name="text">
-                   <string>Настроить пакеты</string>
                   </property>
                  </widget>
                 </item>

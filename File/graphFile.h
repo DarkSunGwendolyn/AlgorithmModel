@@ -18,12 +18,12 @@ public:
 
     static bool load(
         const QString &fileName,
-        QVector<Vertex>& verticies,
+        QVector<Vertex>& vertices,
         QVector<QVector<int>>& matrix);
 
 private:
 
-    static void saveVerticies(
+    static void saveVertices(
         QJsonObject& graphObject,
         const Graph& graph);
 
@@ -31,9 +31,9 @@ private:
         QJsonObject& graphObject,
         const Graph& graph);
 
-    static void loadVerticies(
+    static void loadVertices(
         const QJsonObject &graphObject,
-        QVector<Vertex>& verticies
+        QVector<Vertex>& vertices
         );
 
     static void loadMatrix(

@@ -5,16 +5,16 @@ void Graph::addVertex(double x, double y)
     Vertex v;
     v.id = nextVertexID++;
     v.pos = QPointF(x, y);
-    verticies.append(v);
+    vertices.append(v);
 }
 
 void Graph::deleteVertex(int id)
 {
-    verticies.removeAt(id);
+    vertices.removeAt(id);
 
-    for (int i = id; i < verticies.size(); ++i)
+    for (int i = id; i < vertices.size(); ++i)
     {
-        verticies[i].id--;
+        vertices[i].id--;
     }
 
     for (int i = 0; i < edges.size(); ++i)
@@ -30,7 +30,7 @@ void Graph::deleteVertex(int id)
         }
     }
 
-    nextVertexID = verticies.size();
+    nextVertexID = vertices.size();
 }
 
 void Graph::addEdge(int from, int to, int weight)
@@ -68,14 +68,14 @@ void Graph::changeEdgeWeight(int from, int to, int weight)
 
 void Graph::clear()
 {
-    verticies.clear();
+    vertices.clear();
     edges.clear();
     nextVertexID = 0;
 }
 
-const QVector<Vertex>& Graph::getVerticies() const
+const QVector<Vertex>& Graph::getVertices() const
 {
-    return verticies;
+    return vertices;
 }
 
 const QVector<Edge>& Graph::getEdges() const
@@ -86,7 +86,7 @@ const QVector<Edge>& Graph::getEdges() const
 QVector<QVector<int>> Graph::getAdjacencyMatrix() const
 {
     QVector<QVector<int>> m(
-        verticies.size(), QVector<int>(verticies.size(), 0)
+        vertices.size(), QVector<int>(vertices.size(), 0)
     );
 
     for (const auto &e : edges)
@@ -94,14 +94,14 @@ QVector<QVector<int>> Graph::getAdjacencyMatrix() const
         int fromIdx = -1;
         int toIdx = -1;
 
-        for (int i = 0; i < verticies.size(); ++i)
+        for (int i = 0; i < vertices.size(); ++i)
         {
-            if (verticies[i].id == e.from)
+            if (vertices[i].id == e.from)
             {
                 fromIdx = i;
             }
 
-            if (verticies[i].id == e.to)
+            if (vertices[i].id == e.to)
             {
                 toIdx = i;
             }
@@ -117,10 +117,10 @@ QVector<QVector<int>> Graph::getAdjacencyMatrix() const
 }
 
 void Graph::setGraphData(
-    const QVector<Vertex> &verticies,
+    const QVector<Vertex> &vertices,
     const QVector<QVector<int>> &matrix)
 {
-    this->verticies = verticies;
+    this->vertices = vertices;
     edges.clear();
 
     for (int i = 0;  i < matrix.size(); ++i)
@@ -130,15 +130,15 @@ void Graph::setGraphData(
             if (matrix[i][j] != 0)
             {
                 addEdge(
-                    verticies[i].id,
-                    verticies[j].id,
+                    vertices[i].id,
+                    vertices[j].id,
                     matrix[i][j]
                     );
             }
         }
     }
 
-    nextVertexID = verticies.size();
+    nextVertexID = vertices.size();
 }
 
 

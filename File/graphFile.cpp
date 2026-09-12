@@ -6,7 +6,7 @@ bool GraphFile::save(
 {
     QJsonObject graphObject;
     graphObject["version"] = 1;
-    saveVerticies(graphObject, graph);
+    saveVertices(graphObject, graph);
     saveMatrix(graphObject, graph);
 
     QFile file(fileName);
@@ -25,13 +25,13 @@ bool GraphFile::save(
     return true;
 }
 
-void GraphFile::saveVerticies(
+void GraphFile::saveVertices(
     QJsonObject& graphObject,
     const Graph& graph)
 {
-    QJsonArray verticiesArray;
+    QJsonArray verticesArray;
 
-    for (const Vertex &vertex : graph.getVerticies())
+    for (const Vertex &vertex : graph.getVertices())
     {
         QJsonObject vertexObject;
 
@@ -39,9 +39,9 @@ void GraphFile::saveVerticies(
         vertexObject["x"] = vertex.pos.x();
         vertexObject["y"] = vertex.pos.y();
 
-        verticiesArray.append(vertexObject);
+        verticesArray.append(vertexObject);
     }
-    graphObject["verticies"] = verticiesArray;
+    graphObject["vertices"] = verticesArray;
 }
 
 void GraphFile::saveMatrix(
@@ -68,7 +68,7 @@ void GraphFile::saveMatrix(
 
 bool GraphFile::load(
     const QString &fileName,
-    QVector<Vertex> &verticies,
+    QVector<Vertex> &vertices,
     QVector<QVector<int>>& matrix
     )
 {
@@ -93,9 +93,9 @@ bool GraphFile::load(
 
     QJsonObject graphObj = doc.object();
 
-    loadVerticies(
+    loadVertices(
         graphObj,
-        verticies
+        vertices
         );
 
     loadMatrix(
@@ -107,16 +107,16 @@ bool GraphFile::load(
 }
 
 
-void GraphFile::loadVerticies(
+void GraphFile::loadVertices(
     const QJsonObject &graphObject,
-    QVector<Vertex> &verticies)
+    QVector<Vertex> &vertices)
 {
-    QJsonArray verticiesArr =
-        graphObject["verticies"].toArray();
+    QJsonArray verticesArr =
+        graphObject["vertices"].toArray();
 
-    verticies.clear();
+    vertices.clear();
 
-    for (const QJsonValue &val : verticiesArr)
+    for (const QJsonValue &val : verticesArr)
     {
         QJsonObject vertexObject = val.toObject();
 
@@ -128,7 +128,7 @@ void GraphFile::loadVerticies(
 
         vertex.pos = QPointF(x, y);
 
-        verticies.append(vertex);
+        vertices.append(vertex);
     }
 }
 

@@ -18,18 +18,18 @@ public:
 
     void clear();
 
-    const QVector<Vertex>& getVerticies() const;
+    const QVector<Vertex>& getVertices() const;
     const QVector<Edge>& getEdges() const;
 
     QVector<QVector<int>> getAdjacencyMatrix() const;
 
     void setGraphData(
-        const QVector<Vertex> &verticies,
+        const QVector<Vertex> &vertices,
         const QVector<QVector<int>> &matrix
         );
 
 private:
-    QVector<Vertex> verticies;
+    QVector<Vertex> vertices;
     QVector<Edge> edges;
 
     int nextVertexID = 0;

@@ -58,7 +58,11 @@ void VertexItem::paint(QPainter *painter,
     painter->setPen(QPen(Qt::black, 2));
     painter->drawEllipse(boundingRect());
     painter->setPen(Qt::black);
-    painter->drawText(boundingRect(), Qt::AlignCenter, QString::number(id + 1));
+    painter->drawText(
+        boundingRect(),
+        Qt::AlignCenter,
+        QString::number(id + 1)
+        );
 }
 
 QRectF VertexItem::boundingRect() const

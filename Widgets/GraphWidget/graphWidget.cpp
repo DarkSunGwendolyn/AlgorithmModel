@@ -57,7 +57,7 @@ void GraphWidget::mousePressEvent(QMouseEvent *e)
 
 void GraphWidget::setVertexCount(int count)
 {
-    int currentCount = graph.getVerticies().size();
+    int currentCount = graph.getVertices().size();
 
     if (count > currentCount)
     {
@@ -86,7 +86,7 @@ void GraphWidget::setVertexCount(int count)
 
 void GraphWidget::addVertex(const QPointF& pos)
 {
-    if (graph.getVerticies().size() >= 10)
+    if (graph.getVertices().size() >= 10)
     {
         QMessageBox::information(
             this,
@@ -99,7 +99,7 @@ void GraphWidget::addVertex(const QPointF& pos)
 
     graph.addVertex(pos.x(), pos.y());
 
-    const Vertex& v = graph.getVerticies().last();
+    const Vertex& v = graph.getVertices().last();
 
     VertexItem *item = new VertexItem(v.id);
 
@@ -118,7 +118,7 @@ void GraphWidget::addVertex(const QPointF& pos)
     scene->addItem(item);
 
     emit graphChanged();
-    emit vertexCountChanged(graph.getVerticies().size());
+    emit vertexCountChanged(graph.getVertices().size());
 }
 
 void GraphWidget::updateVertexEdges(VertexItem *vItem)
@@ -186,10 +186,10 @@ void GraphWidget::deleteVertex(VertexItem *vItem)
 
     delete vItem;
 
-    changeVerticiesIds(id);
+    changeVerticesIds(id);
 
     emit graphChanged();
-    emit vertexCountChanged(graph.getVerticies().size());
+    emit vertexCountChanged(graph.getVertices().size());
 }
 
 void GraphWidget::deleteVertexEdges(VertexItem *vItem)
@@ -238,7 +238,7 @@ void GraphWidget::deleteEdge(EdgeItem *eItem)
     emit graphChanged();
 }
 
-void GraphWidget::changeVerticiesIds(int deletetedItemId)
+void GraphWidget::changeVerticesIds(int deletetedItemId)
 {
     for (QGraphicsItem *item : scene->items())
     {
@@ -506,7 +506,7 @@ QVector<QVector<int>>GraphWidget::getAdjacencyMatrix() const
 void GraphWidget::highlightPath(const QVector<int> &path)
 {
     clearHighlight();
-    highlightVerticies(path);
+    highlightVertices(path);
     highlightEdges(path);
 }
 
@@ -533,7 +533,7 @@ void GraphWidget::clearHighlight()
     }
 }
 
-void GraphWidget::highlightVerticies(const QVector<int> &path)
+void GraphWidget::highlightVertices(const QVector<int> &path)
 {
     for (int id : path)
     {
@@ -562,7 +562,7 @@ void GraphWidget::highlightEdges(const QVector<int> &path)
 }
 
 void GraphWidget::setGraphData(
-    const QVector<Vertex> &verticies,
+    const QVector<Vertex> &vertices,
     const QVector<QVector<int>>& matrix
     )
 {
@@ -571,9 +571,9 @@ void GraphWidget::setGraphData(
 
     scene->clear();
 
-    graph.setGraphData(verticies, matrix);
+    graph.setGraphData(vertices, matrix);
 
-    for (const Vertex& vertex : graph.getVerticies())
+    for (const Vertex& vertex : graph.getVertices())
     {
         VertexItem *item = new VertexItem(vertex.id);
         item->setPos(vertex.pos);
@@ -610,7 +610,7 @@ void GraphWidget::setGraphData(
 
     emit graphChanged();
     emit vertexCountChanged(
-        graph.getVerticies().size()
+        graph.getVertices().size()
         );
 }
 
@@ -622,6 +622,60 @@ void GraphWidget::deleteVertexById(int id)
     {
         deleteVertex(vItem);
     }
+}
+
+void GraphWidget::animatePacket(const Packet &packet)
+{
+    PacketItem *pItem = addPacket(packet);
+
+    if (!pItem)
+    {
+        return;
+    }
+
+    QSequentialAnimationGroup *group =
+        new QSequentialAnimationGroup(pItem);
+
+    for (int i = 1; i < packet.route.size(); ++i)
+    {
+        VertexItem *toVertex = findVertex(packet.route[i]);
+        QPropertyAnimation *animation =
+            new QPropertyAnimation(pItem, "pos");
+
+        animation->setDuration(1000);
+
+        animation->setStartValue(
+            findVertex(packet.route[i-1])->pos()
+            );
+        animation->setEndValue(toVertex->pos());
+
+        group->addAnimation(animation);
+    }
+
+    connect(
+        group,
+        &QSequentialAnimationGroup::finished,
+        pItem,
+        &QGraphicsObject::deleteLater
+        );
+
+    group->start(QAbstractAnimation::DeleteWhenStopped);
+}
+
+PacketItem* GraphWidget::addPacket(const Packet &packet)
+{
+    VertexItem *vItem = findVertex(packet.currentVertex);
+
+    if (!vItem)
+    {
+        return nullptr;
+    }
+
+    PacketItem *pItem = new PacketItem(packet.id);
+    pItem->setPos(vItem->pos());
+    scene->addItem(pItem);
+
+    return pItem;
 }
 
 

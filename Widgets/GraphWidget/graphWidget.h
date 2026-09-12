@@ -4,12 +4,16 @@
 #include "graph.h"
 #include "vertexItem.h"
 #include "edgeItem.h"
+#include "packet.h"
+#include "packetItem.h"
 
 #include <QGraphicsView>
 #include <QGraphicsScene>
 #include <QMouseEvent>
 #include <QInputDialog>
 #include <QMessageBox>
+#include <QPropertyAnimation>
+#include <QSequentialAnimationGroup>
 
 class GraphWidget : public QGraphicsView
 {
@@ -25,9 +29,11 @@ public:
     void highlightPath(const QVector<int> &path);
 
     void setGraphData(
-        const QVector<Vertex>& verticies,
+        const QVector<Vertex>& vertices,
         const QVector<QVector<int>>& matrix
         );
+
+    void animatePacket(const Packet &packet);
 
 public slots:
 
@@ -53,7 +59,7 @@ private:
     void deleteVertex(VertexItem *vItem);
     void deleteVertexEdges(VertexItem *vItem);
     void updateVertexEdges(VertexItem *vItem);
-    void changeVerticiesIds(int deletedItemId);
+    void changeVerticesIds(int deletedItemId);
 
     void startEdgeCreation(VertexItem *i);
     void updateEdgeCreation(const QPointF &pos);
@@ -73,8 +79,10 @@ private:
     void setEdgeWeight(EdgeItem *eItem, int weight);
 
     void clearHighlight();
-    void highlightVerticies(const QVector<int> &path);
+    void highlightVertices(const QVector<int> &path);
     void highlightEdges(const QVector<int> &path);
+
+    PacketItem* addPacket(const Packet &packet);
 
 signals:
     void graphChanged();
