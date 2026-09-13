@@ -23,6 +23,11 @@ qt_add_executable(AlgorithmModel
     Models/Packet/packetFactory.cpp
     Models/Packet/packet.h
 
+    Models/Routing/routingTable.h
+
+    Algorithms/Routing/experienceRouting.h
+    Algorithms/Routing/experienceRouting.cpp
+
     Widgets/GraphWidget/graphWidget.h
     Widgets/GraphWidget/graphWidget.cpp
     Widgets/GraphWidget/vertexItem.h
@@ -47,6 +52,9 @@ qt_add_executable(AlgorithmModel
     Widgets/PacketTableWidget/packetTableWidget.h
     Widgets/PacketTableWidget/packetTableWidget.cpp
     Widgets/PacketTableWidget/packetTableRow.h
+
+    Widgets/RoutingTableWidget/routingTableWidget.h
+    Widgets/RoutingTableWidget/routingTableWidget.cpp
 
 
     Algorithms/ShortestPath/shortestPathType.h
@@ -84,12 +92,14 @@ target_include_directories(AlgorithmModel
         ${CMAKE_CURRENT_SOURCE_DIR}/Models
         ${CMAKE_CURRENT_SOURCE_DIR}/Models/Graph
         ${CMAKE_CURRENT_SOURCE_DIR}/Models/Packet
+         ${CMAKE_CURRENT_SOURCE_DIR}/Models/Routing
 
         ${CMAKE_CURRENT_SOURCE_DIR}/Widgets
         ${CMAKE_CURRENT_SOURCE_DIR}/Widgets/GraphWidget
         ${CMAKE_CURRENT_SOURCE_DIR}/Widgets/MatrixWidget
         ${CMAKE_CURRENT_SOURCE_DIR}/Widgets/PathWidget
         ${CMAKE_CURRENT_SOURCE_DIR}/Widgets/PacketTableWidget
+        ${CMAKE_CURRENT_SOURCE_DIR}/Widgets/RoutingTableWidget
 
 
         ${CMAKE_CURRENT_SOURCE_DIR}/Algorithms

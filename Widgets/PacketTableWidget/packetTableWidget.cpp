@@ -103,3 +103,8 @@ QString PacketTableWidget::buildStringPath(
 
     return stringPath;
 }
+
+void PacketTableWidget::clear()
+{
+    setRowCount(0);
+}

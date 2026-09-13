@@ -26,5 +26,12 @@ Packet PacketFactory::create(
 
     packet.transmissionType = type;
 
+    packet.route.append(source);
+
     return packet;
+}
+
+void PacketFactory::reset()
+{
+    nextPacketId = 0;
 }

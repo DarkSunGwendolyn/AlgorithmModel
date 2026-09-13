@@ -14,7 +14,20 @@ RoutingAlgorithm* RoutingAlgorithmProvider::getAlgorithm(
 
         case RoutingType::Flooding:
             return &flooding;
+
+        case RoutingType::Experience:
+            return &experience;
     }
 
     return nullptr;
+}
+
+const ExperienceRouting& RoutingAlgorithmProvider::getExperienceRouting() const
+{
+    return experience;
+}
+
+void RoutingAlgorithmProvider::clearExperienceRouting()
+{
+    experience.clearRoutingTables();
 }

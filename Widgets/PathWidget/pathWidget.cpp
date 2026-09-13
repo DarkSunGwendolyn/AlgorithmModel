@@ -80,3 +80,8 @@ QString PathWidget::buildStringPath(
 
     return stringPath;
 }
+
+void PathWidget::clear()
+{
+    setRowCount(0);
+}

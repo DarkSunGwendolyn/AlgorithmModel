@@ -19,6 +19,14 @@ MainWindow::MainWindow(QWidget *parent)
 
             updateVertexCombos();
             clearShortestPathResult();
+
+            ui->floydPathWidget->clear();
+            ui->dijkstraPathWidget->clear();
+            ui->packetTableWidet->clear();
+            ui->routingTableWidget->clear();
+
+            algorithmProvider.clearExperienceRouting();
+            PacketFactory::reset();
         });
 
     connect(
@@ -138,6 +146,8 @@ void MainWindow::updateVertexCombos()
     ui->fromRoutingCombo->clear();
     ui->toRoutingCombo->clear();
 
+    ui->nodeValueCombo->clear();
+
     for (int i = 0; i < count; ++i)
     {
         ui->fromVertexCombo->addItem(QString::number(i+1));
@@ -145,6 +155,8 @@ void MainWindow::updateVertexCombos()
 
         ui->fromRoutingCombo->addItem(QString::number(i+1));
         ui->toRoutingCombo->addItem(QString::number(i+1));
+
+        ui->nodeValueCombo->addItem(QString::number(i + 1));
     }
 }
 
@@ -308,9 +320,9 @@ void MainWindow::initAlgorithmCombo()
     ui->routingAlgorithmCombo->addItem(
         "Лавинная маршрутизация"
         );
-    // ui->routingAlgorithmCombo->addItem(
-    //     "Маршрутизация по предыдущему опыту"
-    //     );
+    ui->routingAlgorithmCombo->addItem(
+        "Маршрутизация по предыдущему опыту"
+        );
 }
 
 void MainWindow::findShortestPaths()
@@ -478,6 +490,14 @@ void MainWindow::setRoutingAlgorithm()
     }
 
     packetRouter.setRoutingAlgorithm(algorithm);
+
+    bool isExpirienceRouting =
+        type == RoutingType::Experience;
+
+    ui->tabWidget->setTabVisible(
+        ui->tabWidget->indexOf(ui->routingTab),
+        isExpirienceRouting
+        );
 }
 
 void MainWindow::routePacket()
@@ -515,10 +535,12 @@ void MainWindow::routePacket()
         type
         );
 
-    packet.route.append(source);
+    //packet.route.append(source);
 
     RoutingResult result =
         packetRouter.routePacket(graph, packet);
+
+    updateRoutingTableWidget();
 
     processPacketResult(
         result.deliveredPackets,
@@ -528,6 +550,21 @@ void MainWindow::routePacket()
     processPacketResult(
         result.expiredPackets,
         PacketStatus::Expired
+        );
+}
+
+void MainWindow::updateRoutingTableWidget()
+{
+    const ExperienceRouting &experienceRouting =
+        algorithmProvider.getExperienceRouting();
+
+    const QVector<RoutingTable> &tables =
+        experienceRouting.getRoutingTables();
+
+    int node = ui->nodeValueCombo->currentIndex();
+
+    ui->routingTableWidget->setRoutingTable(
+        tables[node]
         );
 }
 

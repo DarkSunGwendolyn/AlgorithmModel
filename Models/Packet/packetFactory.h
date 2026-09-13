@@ -15,6 +15,8 @@ public:
         TransmissionType transmission
         );
 
+    static void reset();
+
 private:
 
     static int nextPacketId;

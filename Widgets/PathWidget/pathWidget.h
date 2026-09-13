@@ -18,6 +18,8 @@ public:
         const QVector<PathTableRow> &rows
         );
 
+    void clear();
+
 private:
     QString buildStringPath(const QVector<int> &path) const;
 };

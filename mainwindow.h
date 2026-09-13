@@ -20,6 +20,7 @@
 #include "packetFactory.h"
 #include "packetTableRow.h"
 #include "packetMapper.h"
+#include "routingTableWidget.h"
 
 struct ShortestPathResult
 {
@@ -76,6 +77,8 @@ private:
     void processPacketResult(
         const QVector<Packet> &packets,
         PacketStatus status);
+
+    void updateRoutingTableWidget();
 
 
 

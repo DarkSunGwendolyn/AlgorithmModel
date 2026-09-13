@@ -23,7 +23,7 @@
        </font>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="graphTab">
        <attribute name="title">
@@ -590,6 +590,47 @@
         </item>
        </layout>
       </widget>
+      <widget class="QWidget" name="routingTab">
+       <attribute name="title">
+        <string>Маршрутизация по опыту</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_17">
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_16">
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_4">
+            <item>
+             <widget class="QLabel" name="nodeHeaderLabel">
+              <property name="text">
+               <string>Узел:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_6">
+              <property name="orientation">
+               <enum>Qt::Orientation::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QComboBox" name="nodeValueCombo"/>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="RoutingTableWidget" name="routingTableWidget"/>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </item>
    </layout>
@@ -644,6 +685,11 @@
    <class>PacketTableWidget</class>
    <extends>QTableWidget</extends>
    <header>packetTableWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>RoutingTableWidget</class>
+   <extends>QTableWidget</extends>
+   <header>routingTableWidget.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

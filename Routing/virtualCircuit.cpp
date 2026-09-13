@@ -37,34 +37,6 @@ RoutingResult VirtualCircuit::route(
     return movePacketByRoute(packet);
 }
 
-void VirtualCircuit::buildRoute(
-    const Graph &graph,
-    const Packet &packet)
-{
-    QVector<Packet> activePackets;
-    activePackets.append(packet);
-
-    while(!activePackets.isEmpty())
-    {
-        QVector<Packet> nextPackets;
-        for (const Packet &activePacket : activePackets)
-        {
-            RoutingResult stepResult =
-                movePacket(graph, activePacket);
-
-            if (!stepResult.deliveredPackets.isEmpty())
-            {
-                virtualCircuitRoute =
-                    stepResult.deliveredPackets.first().route;
-            }
-
-            nextPackets += stepResult.packets;
-        }
-
-        activePackets = nextPackets;
-    }
-}
-
 RoutingResult VirtualCircuit::movePacketByRoute(
     const Packet &packet)
 {

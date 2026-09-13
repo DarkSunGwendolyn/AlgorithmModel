@@ -22,11 +22,6 @@ private:
 
     QVector<int> virtualCircuitRoute;
 
-    void buildRoute(
-        const Graph &graph,
-        const Packet &packet
-        );
-
     RoutingResult movePacketByRoute(
         const Packet &packet
         );
