@@ -14,6 +14,7 @@
 #include <QMessageBox>
 #include <QPropertyAnimation>
 #include <QSequentialAnimationGroup>
+#include <QTimer>
 
 class GraphWidget : public QGraphicsView
 {
@@ -33,7 +34,9 @@ public:
         const QVector<QVector<int>>& matrix
         );
 
-    void animatePacket(const Packet &packet);
+    void animatePacket(
+        const Packet &packet,
+        PacketStatus status);
 
 public slots:
 

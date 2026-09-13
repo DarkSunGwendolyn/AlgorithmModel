@@ -120,6 +120,7 @@ MainWindow::MainWindow(QWidget *parent)
         );
 
     initAlgorithmCombo();
+
     setRoutingAlgorithm();
 
     //loadTestMatrix();
@@ -314,6 +315,18 @@ void MainWindow::initAlgorithmCombo()
 
 void MainWindow::findShortestPaths()
 {
+    if (ui->fromVertexCombo->count() == 0 ||
+        ui->toVertexCombo->count() == 0)
+    {
+        QMessageBox::warning(
+            this,
+            "Отсутствуют вершины",
+            "В графе нет вершин."
+            );
+
+        return;
+    }
+
     Graph graph = ui->graphWidget->getGraph();
 
     QElapsedTimer timer;
@@ -473,36 +486,69 @@ void MainWindow::routePacket()
 
     if (graph.getVertices().isEmpty())
     {
+        QMessageBox::warning(
+            this,
+            "Отсутствуют вершины",
+            "В графе нет вершин."
+            );
+
         return;
     }
 
     int source = ui->fromRoutingCombo->currentIndex();
     int destination = ui->toRoutingCombo->currentIndex();
 
-    Packet packet;
+    int size = ui->packetSizeValueSpin->value();
+    int ttl = ui->ttlValueSpin->value();
 
-    packet.id = 0;
-    packet.source = source;
-    packet.destination = destination;
-    packet.currentVertex = source;
-    packet.previousVertex = -1;
-    packet.ttl = graph.getVertices().size();
-    packet.transmissionType =
+    TransmissionType type =
         ui->datagramRadio->isChecked()
         ? TransmissionType::Datagram
         : TransmissionType::VirtualCircuit;
+
+    Packet packet =
+        PacketFactory::create(
+        source,
+        destination,
+        size,
+        ttl,
+        type
+        );
 
     packet.route.append(source);
 
     RoutingResult result =
         packetRouter.routePacket(graph, packet);
 
-    QVector<Packet> animatePackets = result.deliveredPackets;
-    animatePackets += result.expiredPackets;
+    processPacketResult(
+        result.deliveredPackets,
+        PacketStatus::Delivered
+        );
 
-    for (const Packet &packet : animatePackets)
+    processPacketResult(
+        result.expiredPackets,
+        PacketStatus::Expired
+        );
+}
+
+void MainWindow::processPacketResult(
+    const QVector<Packet> &packets,
+    PacketStatus status)
+{
+    for (const Packet &packet : packets)
     {
-        ui->graphWidget->animatePacket(packet);
+        PacketTableRow row =
+            PacketMapper::map(
+                packet,
+                status
+                );
+
+        ui->packetTableWidet->addPacket(row);
+
+        ui->graphWidget->animatePacket(
+            packet,
+            status
+            );
     }
 }
 

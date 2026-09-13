@@ -624,7 +624,10 @@ void GraphWidget::deleteVertexById(int id)
     }
 }
 
-void GraphWidget::animatePacket(const Packet &packet)
+void GraphWidget::animatePacket(
+    const Packet &packet,
+    PacketStatus status
+    )
 {
     PacketItem *pItem = addPacket(packet);
 
@@ -655,9 +658,16 @@ void GraphWidget::animatePacket(const Packet &packet)
     connect(
         group,
         &QSequentialAnimationGroup::finished,
-        pItem,
-        &QGraphicsObject::deleteLater
-        );
+        this,
+        [pItem, status](){
+            pItem->setStatus(status);
+
+            QTimer::singleShot(
+                500,
+                pItem,
+                &QGraphicsObject::deleteLater
+                );
+        });
 
     group->start(QAbstractAnimation::DeleteWhenStopped);
 }

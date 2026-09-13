@@ -5,6 +5,8 @@
 #include <QPainter>
 #include <QGraphicsSceneEvent>
 
+#include "packetStatus.h"
+
 class PacketItem : public QGraphicsObject
 {
     Q_OBJECT
@@ -16,6 +18,8 @@ public:
     void setId(int id);
     int getId();
 
+    void setStatus(PacketStatus status);
+
 protected:
     QRectF boundingRect() const override;
 
@@ -25,6 +29,8 @@ protected:
         ) override;
 
 private:
+    PacketStatus status = PacketStatus::Active;
+
     int id;
 
     static constexpr double RADIUS = 8.0;

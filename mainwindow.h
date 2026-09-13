@@ -17,6 +17,9 @@
 #include "graphFile.h"
 #include "routingAlgorithmProvider.h"
 #include "packetRouter.h"
+#include "packetFactory.h"
+#include "packetTableRow.h"
+#include "packetMapper.h"
 
 struct ShortestPathResult
 {
@@ -69,6 +72,10 @@ private:
         qint64 dijkstraTime,
         qint64 floydTime
         );
+
+    void processPacketResult(
+        const QVector<Packet> &packets,
+        PacketStatus status);
 
 
 

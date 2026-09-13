@@ -63,7 +63,8 @@ void PathWidget::setPaths(
     }
 }
 
-QString PathWidget::buildStringPath(const QVector<int> &path) const
+QString PathWidget::buildStringPath(
+    const QVector<int> &path) const
 {
     QString stringPath;
 

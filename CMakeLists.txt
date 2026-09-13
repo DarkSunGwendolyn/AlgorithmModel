@@ -19,6 +19,8 @@ qt_add_executable(AlgorithmModel
     Models/Graph/graph.h
     Models/Graph/graph.cpp
 
+    Models/Packet/packetFactory.h
+    Models/Packet/packetFactory.cpp
     Models/Packet/packet.h
 
     Widgets/GraphWidget/graphWidget.h
@@ -27,6 +29,9 @@ qt_add_executable(AlgorithmModel
     Widgets/GraphWidget/vertexItem.cpp
     Widgets/GraphWidget/edgeItem.h
     Widgets/GraphWidget/edgeItem.cpp
+    Widgets/GraphWidget/packetStatus.h
+    Widgets/GraphWidget/packetItem.h
+    Widgets/GraphWidget/packetItem.cpp
 
     Widgets/MatrixWidget/matrixWidget.h
     Widgets/MatrixWidget/matrixWidget.cpp
@@ -37,8 +42,11 @@ qt_add_executable(AlgorithmModel
     Widgets/PathWidget/pathMapper.cpp
     Widgets/PathWidget/pathTableRow.h
 
-    Widgets/GraphWidget/packetItem.h
-    Widgets/GraphWidget/packetItem.cpp
+    Widgets/PacketTableWidget/packetMapper.h
+    Widgets/PacketTableWidget/packetMapper.cpp
+    Widgets/PacketTableWidget/packetTableWidget.h
+    Widgets/PacketTableWidget/packetTableWidget.cpp
+    Widgets/PacketTableWidget/packetTableRow.h
 
 
     Algorithms/ShortestPath/shortestPathType.h
@@ -81,6 +89,8 @@ target_include_directories(AlgorithmModel
         ${CMAKE_CURRENT_SOURCE_DIR}/Widgets/GraphWidget
         ${CMAKE_CURRENT_SOURCE_DIR}/Widgets/MatrixWidget
         ${CMAKE_CURRENT_SOURCE_DIR}/Widgets/PathWidget
+        ${CMAKE_CURRENT_SOURCE_DIR}/Widgets/PacketTableWidget
+
 
         ${CMAKE_CURRENT_SOURCE_DIR}/Algorithms
         ${CMAKE_CURRENT_SOURCE_DIR}/Algorithms/ShortestPath

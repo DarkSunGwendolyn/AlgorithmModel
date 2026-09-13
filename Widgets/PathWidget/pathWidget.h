@@ -10,7 +10,6 @@
 class PathWidget : public QTableWidget
 {
     Q_OBJECT
-
 public:
 
     explicit PathWidget(QWidget *p = nullptr);
